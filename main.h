@@ -2,33 +2,48 @@
 #define MAIN_H
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdarg.h>
+#include <limits.h>
+#include <unistd.h>
 
-int _putchar(char c);
-void print_numbers(const char *separator, const unsigned int n, ...);
-void print_strings(const char *separator, const unsigned int n, ...);
-int _printf(const char *format, ...);
-void print_number(int n, int *count);
+
 
 /**
- * struct vartype - struct vartype
+ * struct format - match the conversion specifiers for printf
+ * @id: type char pointer of the specifier i.e (l, h) for (d, i, u, o, x, X)
+ * @f: type pointer to function for the conversion specifier
  *
- * @vartype: type of variable to be printed
- * @f: the function associated
  */
 
-typedef struct vartype
+typedef struct format
 {
-	char *vartype;
-	int (*f)(va_list);
-} var_t;
+	char *id;
+	int (*f)();
+} convert_match;
 
-int c_func(va_list args);
-int s_func(va_list args);
-int perc_func(va_list args);
-int i_func(va_list args);
-int d_func(va_list args);
-int b_func(va_list args);
-int rev_func(va_list args);
-int rot_func(va_list args);
+int printf_pointer(va_list val);
+int printf_hex_aux(unsigned long int num);
+int printf_HEX_aux(unsigned int num);
+int printf_exclusive_string(va_list val);
+int printf_HEX(va_list val);
+int printf_hex(va_list val);
+int printf_oct(va_list val);
+int printf_unsigned(va_list args);
+int printf_bin(va_list val);
+int printf_srev(va_list args);
+int printf_rot13(va_list args);
+int printf_int(va_list args);
+int printf_dec(va_list args);
+int _strlen(char *s);
+int *_strcpy(char *dest, char *src);
+int _strlenc(const char *s);
+int rev_string(char *s);
+int _strlenc(const char *s);
+int printf_37(void);
+int printf_char(va_list val);
+int printf_string(va_list val);
+int _putchar(char c);
+int _printf(const char *format, ...);
+
 #endif
