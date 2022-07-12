@@ -1,28 +1,42 @@
 #include "main.h"
-#include <stdarg.h>
-#include <stdio.h>
 
 /**
- * b_func - function to print integers
- * @args: string passed into function
- *
- * Return: number of digits printed
+ * print_bnr - prints decimal in binary
+ * @arguments: input string
+ * @buf: buffer pointer
+ * @ibuf: index for buffer pointer
+ * Return: number of chars printed.
  */
-
-int b_func(va_list args)
+int print_bnr(va_list arguments, char *buf, unsigned int ibuf)
 {
-	unsigned int binum[32];
-	int n, j;
-	int i = 0;
+	int int_input, count, i, first_one, isnegative;
+	char *binary;
 
-	n = va_arg(args, int);
-	while (n > 0)
+	int_input = va_arg(arguments, int);
+	isnegative = 0;
+	if (int_input == 0)
 	{
-		binum[i] = n % 2;
-		n = n / 2;
-		i++;
+		ibuf = handl_buf(buf, '0', ibuf);
+		return (1);
 	}
-	for (j = i - 1; j >= 0; j--)
-		_putchar(binum[j] + '0');
-	return (i);
+	if (int_input < 0)
+	{
+		int_input = (int_input * -1) - 1;
+		isnegative = 1;
+	}
+	binary = malloc(sizeof(char) * (32 + 1));
+	binary = fill_binary_array(binary, int_input, isnegative, 32);
+	first_one = 0;
+	for (count = i = 0; binary[i]; i++)
+	{
+		if (first_one == 0 && binary[i] == '1')
+			first_one = 1;
+		if (first_one == 1)
+		{
+			ibuf = handl_buf(buf, binary[i], ibuf);
+			count++;
+		}
+	}
+	free(binary);
+	return (count);
 }
