@@ -1,43 +1,44 @@
 #ifndef MAIN_H
 #define MAIN_H
 
-#include <stdio.h>
-#include <stdarg.h>
+#include <unistd.h>
 #include <stdlib.h>
-
-int _putchar(char c);
-void print_numbers(const char *separator, const unsigned int n, ...);
-void print_strings(const char *separator, const unsigned int n, ...);
-int _printf(const char *format, ...);
-void print_number(int n, int *count);
+#include <stdarg.h>
 
 /**
- * struct vartype - struct vartype
- *
- * @vartype: type of variable to be printed
- * @f: the function associated
- */
-
-typedef struct vartype
+* struct convert - defines a structure for symbols and functions
+* @sym: The operator
+* @f: The function associated
+*/
+struct convert
 {
-	char *vartype;
+	char *sym;
 	int (*f)(va_list);
-} var_t;
+};
+typedef struct convert conver_t;
 
-int c_func(va_list args);
-int s_func(va_list args);
-int perc_func(va_list args);
-int i_func(va_list args);
-int d_func(va_list args);
-int b_func(va_list args);
-int rev_func(va_list args);
-int rot_func(va_list args);
-int print_bnr(va_list arguments, char *buf, unsigned int ibuf);
-unsigned int handl_buf(char *buf, char c, unsigned int ibuf);
-int print_buf(char *buf, unsigned int nbuf);
-char *fill_binary_array(char *binary, long int int_in, int isneg, int limit);
-char *fill_oct_array(char *bnr, char *oct);
-char *fill_long_oct_array(char *bnr, char *oct);
-char *fill_short_oct_array(char *bnr, char *oct);
-char *fill_hex_array(char *bnr, char *hex, int isupp, int limit);
+/*Main functions*/
+int parser(const char *format, conver_t f_list[], va_list arg_list);
+int _printf(const char *format, ...);
+int _write_char(char);
+int print_char(va_list);
+int print_string(va_list);
+int print_percent(va_list);
+int print_integer(va_list);
+int print_number(va_list);
+int print_binary(va_list);
+int print_reversed(va_list arg);
+int rot13(va_list);
+int unsigned_integer(va_list);
+int print_octal(va_list list);
+int print_hex(va_list list);
+int print_heX(va_list list);
+
+/*Helper functions*/
+unsigned int base_len(unsigned int, int);
+char *rev_string(char *);
+void write_base(char *str);
+char *_memcpy(char *dest, char *src, unsigned int n);
+int print_unsgined_number(unsigned int);
+
 #endif

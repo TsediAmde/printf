@@ -1,50 +1,37 @@
 #include "main.h"
-#include <stdarg.h>
-#include <stdio.h>
 
 /**
- * _printf - function that produces output according to a format
- * @format: type of argument passed to function
- *
- * Return: k, number of characters printed
+ * _printf - Receives the main string and all the necessary parameters to
+ * print a formated string
+ * @format: A string containing all the desired characters
+ * Return: A total count of the characters printed
  */
-
 int _printf(const char *format, ...)
 {
-	va_list args;
-	int i, j, k, count;
-	var_t type[] = {
-		{"c", c_func}, {"s", s_func}, {"i", i_func}, {"%", perc_func},
-		{"d", d_func},	{"b", b_func},	{"r", rev_func}, {"R", rot_func},
-		{NULL, NULL},
+	int printed_chars;
+	conver_t f_list[] = {
+		{"c", print_char},
+		{"s", print_string},
+		{"%", print_percent},
+		{"d", print_integer},
+		{"i", print_integer},
+		{"b", print_binary},
+		{"r", print_reversed},
+		{"R", rot13},
+		{"u", unsigned_integer},
+		{"o", print_octal},
+		{"x", print_hex},
+		{"X", print_heX},
+		{NULL, NULL}
 	};
+	va_list arg_list;
 
-	va_start(args, format);
-	i = 0, count = 0, k = 0;
-	if (format == NULL || (format[0] == '%' && format[1] == '\0'))
+	if (format == NULL)
 		return (-1);
-	while (format && format[i])
-	{
-		if (format[i] != '%')
-			_putchar(format[i]), k++;
-		else
-		{
-			j = 0;
-			while (type[j].vartype)
-			{
-				if (format[i + 1] == *type[j].vartype)
-				{
-					count += (type[j].f)(args), i++;
-					break;
-				}
-				j++;
-			}
-			if (type[j].vartype == NULL)
-				count += 1, _putchar('%');
-		}
-		i++;
-	}
-	k += count;
-	va_end(args);
-	return (k);
+
+	va_start(arg_list, format);
+	/*Calling parser function*/
+	printed_chars = parser(format, f_list, arg_list);
+	va_end(arg_list);
+	return (printed_chars);
 }
